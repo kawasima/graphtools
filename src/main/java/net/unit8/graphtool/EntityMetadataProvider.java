@@ -1,16 +1,21 @@
 package net.unit8.graphtool;
 
-import java.util.HashMap;
 import java.util.WeakHashMap;
 
 public class EntityMetadataProvider {
-    private WeakHashMap<Class<? extends VertexEntity>, VertexMetadata> metadataMap;
+    private WeakHashMap<Class<? extends GraphEntity>, GraphElementMetadata> metadataMap;
 
     EntityMetadataProvider() {
         metadataMap = new WeakHashMap<>();
     }
 
-    VertexMetadata get(Class<? extends VertexEntity> clazz) {
-        return metadataMap.computeIfAbsent(clazz, VertexMetadata::new);
+    GraphElementMetadata get(Class<? extends GraphEntity> clazz) {
+        if (VertexEntity.class.isAssignableFrom(clazz)) {
+            return metadataMap.computeIfAbsent(clazz, (key) -> new VertexMetadata((Class<VertexEntity>)clazz));
+        } else if (EdgeEntity.class.isAssignableFrom(clazz)) {
+            return metadataMap.computeIfAbsent(clazz, (key) -> new EdgeMetadata((Class<EdgeEntity>)clazz));
+        } else {
+            throw new IllegalArgumentException(clazz + " is not a GraphEntity class");
+        }
     }
 }

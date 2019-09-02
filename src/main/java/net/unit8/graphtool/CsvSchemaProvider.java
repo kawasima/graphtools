@@ -10,11 +10,11 @@ public class CsvSchemaProvider {
     }
 
     public CsvSchema get(Class<? extends VertexEntity> entityClass) {
-        final VertexMetadata vertexMetadata = entityMetadataProvider.get(entityClass);
+        final GraphElementMetadata graphElementMetadata = entityMetadataProvider.get(entityClass);
         CsvSchema.Builder builder = CsvSchema.builder();
         builder.addColumn("~id");
         builder.addColumn("~label", CsvSchema.ColumnType.STRING);
-        vertexMetadata.propertyMetadataStream().forEach(meta -> {
+        graphElementMetadata.propertyMetadataStream().forEach(meta -> {
             builder.addColumn(meta.getName() + toTypeName(meta.getType()),
                     CsvSchema.ColumnType.STRING);
         });
@@ -26,6 +26,10 @@ public class CsvSchemaProvider {
             return ":String";
         } else if (Integer.class.isAssignableFrom(type)) {
             return ":Int";
+        } else if (Boolean.class.isAssignableFrom(type)) {
+            return ":Boolean";
+        } else if (Double.class.isAssignableFrom(type)) {
+            return ":Double";
         } else {
             return "";
         }

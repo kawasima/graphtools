@@ -1,11 +1,9 @@
 package net.unit8.graphtool;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@Vertex("person")
-@JsonTypeName("person")
-public class PersonVertex extends VertexEntity {
+@GraphLabel("person")
+public class Person extends VertexEntity {
     @JsonProperty("name:String")
     private String name;
     @JsonProperty("gender:String")
@@ -20,10 +18,10 @@ public class PersonVertex extends VertexEntity {
     }
 
     public static class Builder {
-        private final PersonVertex person;
+        private final Person person;
 
         public Builder() {
-            person = new PersonVertex();
+            person = new Person();
         }
 
         public Builder id(Object id) {
@@ -41,7 +39,7 @@ public class PersonVertex extends VertexEntity {
             return this;
         }
 
-        public PersonVertex build() {
+        public Person build() {
             return person;
         }
     }

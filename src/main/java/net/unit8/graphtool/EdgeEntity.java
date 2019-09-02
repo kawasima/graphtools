@@ -1,16 +1,35 @@
 package net.unit8.graphtool;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Optional;
 
-public abstract class VertexEntity implements GraphEntity {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "~label")
+public class EdgeEntity implements GraphEntity {
     @JsonProperty("~id")
     protected Object id;
+
+    @JsonProperty("~from")
+    protected VertexEntity from;
+
+    @JsonProperty("~to")
+    protected VertexEntity to;
 
     @Override
     public Object getId() {
         return id;
+    }
+
+    public VertexEntity getFrom() {
+        return from;
+    }
+
+    public VertexEntity getTo() {
+        return to;
     }
 
     @Override
